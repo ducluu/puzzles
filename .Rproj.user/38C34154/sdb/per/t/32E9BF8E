@@ -1,0 +1,17 @@
+{
+    "contents" : "library(\"e1071\")\nlibrary(\"plyr\")\n\ninvert <- function(perm) {\n  n <- perm[1]\n  perm[(n+1):length(perm)] -> tail\n  perm[n:1] -> head\n  append(head, tail)\n}\n\n\nsolve <- function (perm, max.iter) {\n  num.iter = 0\n  while ((perm[1] != 1) & (num.iter <= max.iter)) {\n    invert(perm) -> perm\n    num.iter + 1 -> num.iter\n  }\n  if (perm[1] == 1) {\n    num.iter\n  } else {\n    cat(\"passed maximum number of iterations\", max.iter, \"\\n\")\n    num.iter\n  }\n}\n\npermutations(9) -> permutations\nsample(1:nrow(permutations), 2*10^5) -> ridx\nres <- ldply(ridx, function(row) {\n  solve(permutations[row, ], max.iter) -> num.iter\n  data.frame(\"idx\" = row, \"num.iter\" = num.iter)\n},.progress=\"time\")\n\nlist(perm=permutations[res$idx[which.max(res$num.iter)], ], max.num.iter = max(res$num.iter))\n\n                          \n",
+    "created" : 1404336064968.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3969864938",
+    "id" : "32E9BF8E",
+    "lastKnownWriteTime" : 1404492572,
+    "path" : "~/Desktop/projects/puzzles/permutation.R",
+    "project_path" : "permutation.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
